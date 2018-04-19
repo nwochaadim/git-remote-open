@@ -9,3 +9,26 @@ describe 's:stripnewlines'
   end
 end
 
+describe 's:getcurentline'
+  before
+    new
+    put! = "New line"
+  end
+
+  after
+    close!
+  end
+
+  it 'retrieves the current line and removes new lines from it'
+    normal! gg
+    Expect Call('s:getcurrentline') ==? '1'
+  end
+end
+
+describe 's:cleanupremoteurl'
+  it 'strips .git from provided url'
+    Expect Call('s:cleanupremoteurl', "http://remote-url.git\n") ==?
+          \ 'http://remote-url'
+  end
+end
+
