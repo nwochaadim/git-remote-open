@@ -3,7 +3,7 @@ let s:windows = 'windows'
 let s:linux = 'linux'
 let s:opencommands = {'windows': 'cmd /c start', 'mac': 'open',
       \ 'linux': 'xdg-open'}
-let s:copycommands = {'windows': 'clip', 'mac': 'clip',
+let s:copycommands = {'windows': 'clip', 'mac': 'pbcopy',
       \ 'linux': 'xsel --clipboard --input'}
 
 " Thanks Chris Toomey
@@ -36,3 +36,13 @@ function! oscommands#OpenCommand() abort
 
   return g:opencommand
 endfunction
+
+function! oscommands#CopyCommand() abort
+  let currentos = <SID>currentOS()
+  if !exists("g:copycommand")
+    let g:copycommand = s:copycommands[currentos]
+  endif
+
+  return g:copycommand
+endfunction
+

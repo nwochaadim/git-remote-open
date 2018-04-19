@@ -46,14 +46,25 @@ endfunction
 
 function! s:getremoteurl()
   let fullremoteurl = <SID>getoriginurl() . '/blob/' .
-        \ <SID>getcurrentbranch() . '/' . <SID>getcurrentfilepath() . '\#L' . <SID>getlines()
+        \ <SID>getcurrentbranch() . '/' . <SID>getcurrentfilepath() .
+        \ '\#L' . <SID>getlines()
   return fullremoteurl
 endfunction
 
 function! s:openremoteurl(line1, line2)
   let b:line1 = a:line1
   let b:line2 = a:line2
-  silent! execute "!open " . s:getremoteurl() | redraw!
+
+  silent! execute  "!" . oscommands#OpenCommand() . " " . s:getremoteurl()
+        \ | redraw!
+endfunction
+
+function! s:copyremoteurl(line1, line2)
+  let b:line1 = a:line1
+  let b:line2 = a:line2
+
+  silent! call system(oscommands#CopyCommand(), s:getremoteurl())
 endfunction
 
 command! -range OpenRemoteUrl call s:openremoteurl(<line1>, <line2>)
+command! -range CopyRemoteUrl call s:copyremoteurl(<line1>, <line2>)

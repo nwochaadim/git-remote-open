@@ -7,3 +7,11 @@ describe 'oscommands#OpenCommand'
     Expect oscommands#OpenCommand() ==# 'xdg-open'
   end
 end
+
+describe 'oscommands#CopyCommand'
+  it 'returns the right os copy command'
+    let g:currentos = 'linux'
+
+    Expect oscommands#CopyCommand() ==# 'xsel --clipboard --input'
+  end
+end
