@@ -14,7 +14,7 @@ describe 's:getlines'
     let b:line1 = 1
     let b:line2 = 2
 
-    Expect Call('s:getlines') ==# '1-2'
+    Expect Call('s:getlines') ==# '1-L2'
   end
 
   it 'returns a line number if same'

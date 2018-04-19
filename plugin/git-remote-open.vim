@@ -12,7 +12,7 @@ function! s:getlines()
   if b:line1 ==# b:line2
     return b:line1
   else
-    return b:line1 . "-" . b:line2
+    return b:line1 . "-L" . b:line2
   endif
 endfunction
 
@@ -46,7 +46,7 @@ endfunction
 
 function! s:getremoteurl()
   let fullremoteurl = <SID>getoriginurl() . '/blob/' .
-        \ <SID>getcurrentbranch() . '\#L' . <SID>getlines()
+        \ <SID>getcurrentbranch() . '/' . <SID>getcurrentfilepath() . '\#L' . <SID>getlines()
   return fullremoteurl
 endfunction
 
