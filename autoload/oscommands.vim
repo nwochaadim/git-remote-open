@@ -28,7 +28,7 @@ function! s:currentOS()
   return known_os
 endfunction
 
-function! oscommands#OpenCommand()
+function! oscommands#OpenCommand() abort
   let currentos = <SID>currentOS()
   if !exists("g:opencommand")
     let g:opencommand = s:opencommands[currentos]
