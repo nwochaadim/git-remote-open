@@ -64,7 +64,14 @@ function! s:copyremoteurl(line1, line2)
   let b:line2 = a:line2
 
   silent! call system(oscommands#CopyCommand(), s:getremoteurl())
+  echo 'Copied url to Clipboard!'
 endfunction
 
 command! -range OpenRemoteUrl call s:openremoteurl(<line1>, <line2>)
 command! -range CopyRemoteUrl call s:copyremoteurl(<line1>, <line2>)
+
+nnoremap <Plug>OpenRemoteUrl :OpenRemoteUrl<CR>
+vnoremap <Plug>OpenRemoteUrl :OpenRemoteUrl<CR>
+
+nnoremap <Plug>CopyRemoteUrl :CopyRemoteUrl<CR>
+vnoremap <Plug>CopyRemoteUrl :CopyRemoteUrl<CR>
