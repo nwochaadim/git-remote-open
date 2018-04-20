@@ -1,3 +1,8 @@
+if exists('g:loaded_git_remote_open')
+  finish
+endif
+let g:loaded_git_remote_open = 1
+
 " Provide access to script functions
 function! SID()
   return maparg('<SID>', 'n')
@@ -66,11 +71,11 @@ endfunction
 
 function! s:getcommithead()
   let commit_head = system("git rev-parse HEAD")
-  return <SID>stripnewlines(getcommithead)
+  return <SID>stripnewlines(commit_head)
 endfunction
 
 function! s:github_full_remote_url(origin_url)
-  let fullremoteurl = origin_url . '/blob/' .
+  let fullremoteurl = a:origin_url . '/blob/' .
         \ <SID>getcurrentbranch() . '/' . <SID>getcurrentfilepath() .
         \ '\#L' . <SID>get_github_lines()
   return fullremoteurl
@@ -91,23 +96,24 @@ function! s:getremoteurl()
   elseif s:isbitbucket(origin_url)
     return <SID>bitbucket_full_remote_url(origin_url)
   else
-    throw 'Remote not supported'
+    execute 'normal \<Esc>'
+    throw 'Remote ' . origin_url . ' not supported'
   endif
 endfunction
 
-function! s:openremoteurl(line1, line2)
+function! s:openremoteurl(line1, line2) abort
   let b:line1 = a:line1
   let b:line2 = a:line2
-
-  silent! execute  "!" . oscommands#OpenCommand() . " " . s:getremoteurl()
-        \ | redraw!
+  silent! execute  "!" . oscommands#OpenCommand() . " " .
+        \ shellescape(s:getremoteurl()) | redraw!
 endfunction
 
-function! s:copyremoteurl(line1, line2)
+function! s:copyremoteurl(line1, line2) abort
   let b:line1 = a:line1
   let b:line2 = a:line2
+  let copy_command = substitute(s:getremoteurl(), '\', '', 'g')
 
-  silent! call system(oscommands#CopyCommand(), s:getremoteurl())
+  silent! call system(oscommands#CopyCommand(), copy_command)
   echo 'Copied url to Clipboard!'
 endfunction
 
