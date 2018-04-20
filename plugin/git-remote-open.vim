@@ -125,3 +125,19 @@ vnoremap <Plug>OpenRemoteUrl :OpenRemoteUrl<CR>
 
 nnoremap <Plug>CopyRemoteUrl :CopyRemoteUrl<CR>
 vnoremap <Plug>CopyRemoteUrl :CopyRemoteUrl<CR>
+
+if !hasmapto('<Plug>OpenRemoteUrl', 'n') || maparg('<leader>gto', 'n') ==# ''
+  nmap <leader>gto <Plug>OpenRemoteUrl
+endif
+
+if !hasmapto('<Plug>OpenRemoteUrl', 'v') || maparg('<leader>gto', 'v') ==# ''
+  vmap <leader>gto <Plug>OpenRemoteUrl
+endif
+
+if !hasmapto('<Plug>CopyRemoteUrl', 'n') || maparg('<leader>gtc', 'n') ==# ''
+  nmap <leader>gtc <Plug>CopyRemoteUrl
+endif
+
+if !hasmapto('<Plug>CopyRemoteUrl', 'v') || maparg('<leader>gtc', 'v') ==# ''
+  vmap <leader>gtc <Plug>CopyRemoteUrl
+endif
