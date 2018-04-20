@@ -4,7 +4,7 @@ defaults: &defaults
   docker:
     - image: circleci/ruby:2.4
       environment:
-        BASH_ENV: "~/.bash_profile"
+        BASH_ENV: "~/.bashrc"
 jobs:
   build:
     <<: *defaults
@@ -31,9 +31,7 @@ jobs:
             - vendor/bundle
       - run:
           name: Run tests
-          command: |
-            source ~/.bash_profile
-            rake ci
+          command: rake ci
 workflows:
   version: 2
   commit:
