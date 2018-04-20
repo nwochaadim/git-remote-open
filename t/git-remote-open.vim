@@ -83,3 +83,25 @@ describe 's:isgithub'
     end
   end
 end
+
+describe 'mappings'
+  context 'normal mode'
+    it 'has a default plug OpenRemoteUrl mapping'
+      Expect maparg('<leader>gto', 'n') ==# '<Plug>OpenRemoteUrl'
+    end
+
+    it 'has a default plug CopyRemoteUrl mapping'
+      Expect maparg('<leader>gtc', 'n') ==# '<Plug>CopyRemoteUrl'
+    end
+  end
+
+  context 'visual mode'
+    it 'has a default plug OpenRemoteUrl mapping'
+      Expect maparg('<leader>gto', 'v') ==# '<Plug>OpenRemoteUrl'
+    end
+
+    it 'has a default plug CopyRemoteUrl mapping'
+      Expect maparg('<leader>gtc', 'v') ==# '<Plug>CopyRemoteUrl'
+    end
+  end
+end
