@@ -10,18 +10,22 @@ describe 's:stripnewlines'
 end
 
 describe 's:getlines'
-  it 'dashes the line numbers if different'
-    let b:line1 = 1
-    let b:line2 = 2
+  context 'when numbers are different'
+    it 'dashes the line numbers'
+      let b:line1 = 1
+      let b:line2 = 2
 
-    Expect Call('s:getlines') ==# '1-L2'
+      Expect Call('s:getlines') ==# '1-L2'
+    end
   end
 
-  it 'returns a line number if same'
-    let b:line1 = 2
-    let b:line2 = 2
+  context 'when numbers are the same'
+    it 'returns a line number'
+      let b:line1 = 2
+      let b:line2 = 2
 
-    Expect Call('s:getlines') ==# 2
+      Expect Call('s:getlines') ==# 2
+    end
   end
 end
 
