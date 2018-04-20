@@ -17,7 +17,7 @@ function! s:get_github_lines()
   if b:line1 ==# b:line2
     return b:line1
   else
-    return b:line1 . "-L" . b:line2
+    return b:line1 . '-L' . b:line2
   endif
 endfunction
 
@@ -25,7 +25,7 @@ function! s:get_bitbucket_lines()
   if b:line1 ==# b:line2
     return b:line1
   else
-    return b:line1 . ":" . b:line2
+    return b:line1 . ':' . b:line2
   endif
 endfunction
 
@@ -43,26 +43,26 @@ function! s:cleanupremoteurl(giturl)
 endfunction
 
 function! s:getoriginurl()
-  if !exists("g:remote")
-    let g:remote = "origin"
+  if !exists('g:remote')
+    let g:remote = 'origin'
   endif
 
-  let execcmd = "git remote get-url " . g:remote
+  let execcmd = 'git remote get-url ' . g:remote
   let remoteurl = system(execcmd)
   return <SID>cleanupremoteurl(remoteurl)
 endfunction
 
 function! s:isgithub(remote_url)
-  return a:remote_url =~ "github"
+  return a:remote_url =~ 'github'
 endfunction
 
 function! s:isbitbucket(remote_url)
-  return a:remote_url =~ "bitbucket"
+  return a:remote_url =~ 'bitbucket'
 endfunction
 
 function! s:getcurrentbranch()
-  if !exists("g:branch")
-    let branch = system("git rev-parse --abbrev-ref HEAD")
+  if !exists('g:branch')
+    let branch = system('git rev-parse --abbrev-ref HEAD')
     let g:branch = <SID>stripnewlines(branch)
   endif
 
@@ -70,7 +70,7 @@ function! s:getcurrentbranch()
 endfunction
 
 function! s:getcommithead()
-  let commit_head = system("git rev-parse HEAD")
+  let commit_head = system('git rev-parse HEAD')
   return <SID>stripnewlines(commit_head)
 endfunction
 
@@ -104,7 +104,7 @@ endfunction
 function! s:openremoteurl(line1, line2) abort
   let b:line1 = a:line1
   let b:line2 = a:line2
-  silent! execute  "!" . oscommands#OpenCommand() . " " .
+  silent! execute  '!' . oscommands#OpenCommand() . ' ' .
         \ shellescape(s:getremoteurl()) | redraw!
 endfunction
 
