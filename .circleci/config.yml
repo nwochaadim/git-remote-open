@@ -1,0 +1,32 @@
+version: 2
+defaults: &defaults
+  working_directory: ~/repo
+  docker:
+    - image: circleci/ruby:2.4
+jobs:
+  backend_tests:
+    <<: *defaults
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - git-remote-open-{{ checksum "Gemfile.lock" }}
+            - git-remote-open-
+      - run:
+          name: Bundle Install
+          command: |
+            bundle -v
+            bundle check || bundle install
+      - save_cache:
+          key: git-remote-open-{{ checksum "Gemfile.lock" }}
+          paths:
+            - vendor/bundle
+      - run:
+          name: Run tests
+          command: rake ci
+workflows:
+  version: 2
+  commit:
+    jobs:
+      - backend_tests
+
