@@ -3,7 +3,15 @@ defaults: &defaults
   working_directory: ~/repo
   docker:
     - image: circleci/ruby:2.4
+      environment:
+        BASH_ENV: "~/.bash_profile"
 jobs:
+  build:
+    <<: *defaults
+    steps:
+      - run:
+          name: Install Vim
+          command: sudo apt-get update && sudo apt-get install vim
   backend_tests:
     <<: *defaults
     steps:
@@ -23,10 +31,14 @@ jobs:
             - vendor/bundle
       - run:
           name: Run tests
-          command: rake ci
+          command: |
+            source ~/.bash_profile
+            rake ci
 workflows:
   version: 2
   commit:
     jobs:
-      - backend_tests
-
+      - build
+      - backend_tests:
+          requires:
+            - build
