@@ -6,16 +6,13 @@ defaults: &defaults
       environment:
         BASH_ENV: "~/.bashrc"
 jobs:
-  build:
-    <<: *defaults
-    steps:
-      - run:
-          name: Install Vim
-          command: sudo apt-get update && sudo apt-get install vim
   backend_tests:
     <<: *defaults
     steps:
       - checkout
+      - run:
+          name: Install Vim
+          command: sudo apt-get update && sudo apt-get install vim
       - restore_cache:
           keys:
             - git-remote-open-{{ checksum "Gemfile.lock" }}
@@ -36,7 +33,4 @@ workflows:
   version: 2
   commit:
     jobs:
-      - build
-      - backend_tests:
-          requires:
-            - build
+      - backend_tests
