@@ -42,6 +42,10 @@ function! s:cleanupremoteurl(giturl)
   return <SID>stripnewlines(remoteurl)
 endfunction
 
+function! s:is_git_repo(remote_url)
+  return a:remote_url =~ 'github\|bitbucket'
+endfunction
+
 function! s:getoriginurl()
   if !exists('g:remote')
     let g:remote = 'origin'
@@ -49,7 +53,13 @@ function! s:getoriginurl()
 
   let execcmd = 'git remote get-url ' . g:remote
   let remoteurl = system(execcmd)
-  return <SID>cleanupremoteurl(remoteurl)
+  if <SID>is_git_repo(remoteurl)
+    return <SID>cleanupremoteurl(remoteurl)
+  else
+    execute 'normal \<Esc>'
+    throw 'Error: Not a git repo. git-remote-open can only be used inside
+          \ a git repo'
+  endif
 endfunction
 
 function! s:isgithub(remote_url)
@@ -101,20 +111,40 @@ function! s:getremoteurl()
   endif
 endfunction
 
+function! s:exit_plugin(error_msg)
+  echohl ErrorMsg | echom a:error_msg | echohl None
+endfunction
+
+function! s:process_command(command_ref)
+  try
+    let remote_url = <SID>getremoteurl()
+    call a:command_ref(remote_url)
+  catch /^Error/
+    call <SID>exit_plugin(v:exception)
+  endtry
+endfunction
+
+function! s:process_open_command(remote_url)
+  silent! execute  '!' . oscommands#OpenCommand() . ' ' .
+        \ shellescape(a:remote_url) | redraw!
+endfunction
+
+function! s:process_copy_command(remote_url)
+  let stripped_remote_url = substitute(a:remote_url, '\', '', 'g')
+  silent! call system(oscommands#CopyCommand(), stripped_remote_url)
+  echo 'Copied url to Clipboard!'
+endfunction
+
 function! s:openremoteurl(line1, line2) abort
   let b:line1 = a:line1
   let b:line2 = a:line2
-  silent! execute  '!' . oscommands#OpenCommand() . ' ' .
-        \ shellescape(s:getremoteurl()) | redraw!
+  call <SID>process_command(function("s:process_open_command"))
 endfunction
 
 function! s:copyremoteurl(line1, line2) abort
   let b:line1 = a:line1
   let b:line2 = a:line2
-  let copy_command = substitute(s:getremoteurl(), '\', '', 'g')
-
-  silent! call system(oscommands#CopyCommand(), copy_command)
-  echo 'Copied url to Clipboard!'
+  call <SID>process_command(function("s:process_copy_command"))
 endfunction
 
 command! -range OpenRemoteUrl call s:openremoteurl(<line1>, <line2>)

@@ -105,3 +105,23 @@ describe 'mappings'
     end
   end
 end
+
+describe 's:is_git_repo'
+  context 'when github repo'
+    it 'returns true'
+      Expect Call('s:is_git_repo', 'https://github.com') to_be_true
+    end
+  end
+
+  context 'when bitbucket repo'
+    it 'returns false'
+      Expect Call('s:is_git_repo', 'https://bitbucket.org') to_be_false
+    end
+  end
+
+  context 'when not git repo'
+    it 'returns false'
+      Expect Call('s:is_git_repo', 'Fatal') to_be_false
+    do
+  end
+end
