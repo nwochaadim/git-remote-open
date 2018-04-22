@@ -3,9 +3,9 @@ runtime! plugin/git-remote-open.vim
 " Be able to access script functions in test
 call vspec#hint({'sid': 'SID()'})
 
-describe 's:stripnewlines'
+describe 's:strip_new_lines'
   it 'strips new lines from any given string'
-    Expect Call('s:stripnewlines', "\nrandom text\n") ==? 'random text'
+    Expect Call('s:strip_new_lines', "\nrandom text\n") ==? 'random text'
   end
 end
 
@@ -49,37 +49,37 @@ describe 's:get_bitbucket_lines'
   end
 end
 
-describe 's:cleanupremoteurl'
+describe 's:clean_up_remote_url'
   it 'strips .git from provided url'
-    Expect Call('s:cleanupremoteurl', "http://remote-url.git\n") ==?
+    Expect Call('s:clean_up_remote_url', "http://remote-url.git\n") ==?
           \ 'http://remote-url'
   end
 end
 
-describe 's:isbitbucket'
+describe 's:is_bitbucket'
   context 'when bitbucket'
     it 'returns true'
-      Expect Call('s:isbitbucket', 'https://bitbucket.org/jon/jon') to_be_true
+      Expect Call('s:is_bitbucket', 'https://bitbucket.org/jon/jon') to_be_true
     end
   end
 
   context 'when github'
     it 'returns false'
-      Expect Call('s:isbitbucket', 'https://github.com/jon/jon') to_be_false
+      Expect Call('s:is_bitbucket', 'https://github.com/jon/jon') to_be_false
     end
   end
 end
 
-describe 's:isgithub'
+describe 's:is_github'
   context 'when github'
     it 'returns true'
-      Expect Call('s:isgithub', 'https://github.com/jon/jon') to_be_true
+      Expect Call('s:is_github', 'https://github.com/jon/jon') to_be_true
     end
   end
 
   context 'when not github'
     it 'returns false'
-      Expect Call('s:isgithub', 'https://bitbucket.org/jon/jon') to_be_false
+      Expect Call('s:is_github', 'https://bitbucket.org/jon/jon') to_be_false
     end
   end
 end
@@ -115,7 +115,7 @@ describe 's:is_git_repo'
 
   context 'when bitbucket repo'
     it 'returns false'
-      Expect Call('s:is_git_repo', 'https://bitbucket.org') to_be_false
+      Expect Call('s:is_git_repo', 'https://bitbucket.org') to_be_true
     end
   end
 
