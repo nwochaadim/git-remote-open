@@ -8,7 +8,7 @@ let s:copycommands = {'windows': 'clip', 'mac': 'pbcopy',
 
 " Thanks Chris Toomey
 " https://github.com/christoomey/vim-system-copy
-function! s:currentOS()
+function! s:current_os()
   if exists("g:currentos")
     return g:currentos
   endif
@@ -28,8 +28,8 @@ function! s:currentOS()
   return known_os
 endfunction
 
-function! oscommands#OpenCommand() abort
-  let currentos = <SID>currentOS()
+function! oscommands#open_command() abort
+  let currentos = <SID>current_os()
   if !exists("g:opencommand")
     let g:opencommand = s:opencommands[currentos]
   endif
@@ -37,8 +37,8 @@ function! oscommands#OpenCommand() abort
   return g:opencommand
 endfunction
 
-function! oscommands#CopyCommand() abort
-  let currentos = <SID>currentOS()
+function! oscommands#copy_command() abort
+  let currentos = <SID>current_os()
   if !exists("g:copycommand")
     let g:copycommand = s:copycommands[currentos]
   endif

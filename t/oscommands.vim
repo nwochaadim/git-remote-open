@@ -1,17 +1,17 @@
 runtime! plugin/autoload/oscommands.vim
 
-describe 'oscommands#OpenCommand'
+describe 'oscommands#open_command'
   it 'returns the right open command for linux'
     let g:currentos = 'linux'
 
-    Expect oscommands#OpenCommand() ==# 'xdg-open'
+    Expect oscommands#open_command() ==# 'xdg-open'
   end
 end
 
-describe 'oscommands#CopyCommand'
+describe 'oscommands#copy_command'
   it 'returns the right os copy command'
     let g:currentos = 'linux'
 
-    Expect oscommands#CopyCommand() ==# 'xsel --clipboard --input'
+    Expect oscommands#copy_command() ==# 'xsel --clipboard --input'
   end
 end
